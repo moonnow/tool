@@ -137,6 +137,7 @@ public final class ConfigTools {
 
   // 从配置参数得到异常类文件路径
   public static String getExceptionFilePathStrFromConfig(String proPath, String proAllName) {
+    String name = getInitialCaseOrInitialLowercaseHumpFromStr(proAllName, true);
     if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName)) {
       LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
       int proAllNameSort = 1;
@@ -173,7 +174,7 @@ public final class ConfigTools {
           break;
         }
       }
-      proPath = proPath + "exception/" + getInitialCaseOrInitialLowercaseHumpFromStr(proAllName, true) + "Exception.java";
+      proPath = proPath + "exception/" + name + "Exception.java";
       return proPath;
     }
     return "";
@@ -317,6 +318,50 @@ public final class ConfigTools {
     return "";
   }
 
+  // 从配置参数得到Jpa持久化接口类文件路径
+  public static String getIJpaPersistentFilePathStrFromConfig(String proPath, String proAllName, String initialCaseEntityName) {
+    if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName) && ToolUtil.isNotNullStr(initialCaseEntityName)) {
+      LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
+      int proAllNameSort = 1;
+      while (-1 != proAllName.indexOf("-")) {
+        proAllNameList.put(proAllNameSort, proAllName.substring(0, proAllName.indexOf("-")));
+        proAllName = proAllName.substring(proAllName.indexOf("-") + 1);
+        proAllNameSort++;
+      }
+      proAllNameList.put(proAllNameSort, proAllName);
+      if (!"/".equals(proPath.substring(proPath.length() - 1, proPath.length()))) {
+        proPath = proPath + "/";
+      }
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath.substring(0, proPath.length() - 1);
+      proPath = proPath + "/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "-";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "interface/src/main/java/com/pro/";
+      for (int i = 1; i > 0; i++) {
+        if (proAllNameList.containsKey(i)) {
+          proPath = proPath + proAllNameList.get(i) + "/";
+        } else {
+          break;
+        }
+      }
+      proPath = proPath + "persistent/I" + initialCaseEntityName + "JpaPersistent.java";
+      return proPath;
+    }
+    return "";
+  }
+
   // 从配置参数得到持久化接口类包名
   public static String getIPersistentPackageNameStrFromConfig(String proAllName) {
     if (ToolUtil.isNotNullStr(proAllName)) {
@@ -437,6 +482,7 @@ public final class ConfigTools {
 
   // 从配置参数得到服务接口类文件路径
   public static String getIServiceFilePathStrFromConfig(String proPath, String proAllName) {
+    String name = getInitialCaseOrInitialLowercaseHumpFromStr(proAllName, true);
     if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName)) {
       LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
       int proAllNameSort = 1;
@@ -473,7 +519,7 @@ public final class ConfigTools {
           break;
         }
       }
-      proPath = proPath + "service/I" + getInitialCaseOrInitialLowercaseHumpFromStr(proAllName, true) + "Service.java";
+      proPath = proPath + "service/I" + name + "Service.java";
       return proPath;
     }
     return "";
@@ -506,6 +552,7 @@ public final class ConfigTools {
 
   // 从配置参数得到服务实现类文件路径
   public static String getServiceImplFilePathStrFromConfig(String proPath, String proAllName) {
+    String name = getInitialCaseOrInitialLowercaseHumpFromStr(proAllName, true);
     if (ToolUtil.isNotNullStr(proPath) && ToolUtil.isNotNullStr(proAllName)) {
       LinkedHashMap<Integer, String> proAllNameList = new LinkedHashMap<Integer, String>();
       int proAllNameSort = 1;
@@ -542,7 +589,7 @@ public final class ConfigTools {
           break;
         }
       }
-      proPath = proPath + "service/implement/" + getInitialCaseOrInitialLowercaseHumpFromStr(proAllName, true) + "ServiceImpl.java";
+      proPath = proPath + "service/implement/" + name + "ServiceImpl.java";
       return proPath;
     }
     return "";
