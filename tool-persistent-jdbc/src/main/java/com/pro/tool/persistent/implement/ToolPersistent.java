@@ -279,29 +279,17 @@ public abstract class ToolPersistent {
       return new StringBuilder("");
     }
     StringBuilder sql = new StringBuilder(" ORDER BY ");
-    if (MYSQL.equals(dataBaseType)) {
-      boolean isFirst = true;
-      for (Map.Entry<String, String> entry : sort.entrySet()) {
-        if (isFirst) {
-          isFirst = false;
-        } else {
-          sql.append(", ");
-        }
-        if (ToolUtil.isNotNullStr(alias)) {
-          sql.append(alias).append(".");
-        }
-        sql.append(columnsParameter.get(entry.getKey())).append(" ").append(entry.getValue());
+    boolean isFirst = true;
+    for (Map.Entry<String, String> entry : sort.entrySet()) {
+      if (isFirst) {
+        isFirst = false;
+      } else {
+        sql.append(", ");
       }
-    } else if (ORACLE.equals(dataBaseType)) {
-      boolean isFirst = true;
-      for (Map.Entry<String, String> entry : sort.entrySet()) {
-        if (isFirst) {
-          isFirst = false;
-        } else {
-          sql.append(", ");
-        }
-        sql.append(columnsParameter.get(entry.getKey())).append(" ").append(entry.getValue());
+      if (ToolUtil.isNotNullStr(alias)) {
+        sql.append(alias).append(".");
       }
+      sql.append(columnsParameter.get(entry.getKey())).append(" ").append(entry.getValue());
     }
     if (log.isInfoEnabled()) {
       log.info(alias + " sort sql is : " + sql.toString());
@@ -608,9 +596,9 @@ public abstract class ToolPersistent {
     } else if (ORACLE.equals(dataBaseType)) {
       sql.append(" AND ROWNUM <= ").append(paging.getEndOffset().toString());
       if (ToolUtil.isNotEmpty(sort)) {
-        sql.append(this.getSortSql(sort, columnsParameter, alias));
+        sql.append(this.getSortSql(sort, columnsParameter, null));
       }
-      sql.append(" ) WHERE RN >= ").append(paging.getOffset().toString());
+      sql.append(" ) WHERE RN >= ").append(paging.getStartOffset().toString());
     }
     if (log.isInfoEnabled()) {
       log.info(alias + " paging sql is : " + sql.toString());

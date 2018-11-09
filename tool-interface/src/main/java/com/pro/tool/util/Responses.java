@@ -21,6 +21,10 @@ public class Responses<T> implements java.io.Serializable {
   private boolean isSuccess;
 
   private String msg;
+  
+  protected java.lang.String token;
+
+  protected java.lang.Long cookiesExpireTimes;
 
   public Responses() {
     super();
@@ -30,6 +34,8 @@ public class Responses<T> implements java.io.Serializable {
     this.page = 1l;
     this.data = Collections.emptyList();
     this.isSuccess = true;
+    this.token = ToolContextData.getTokenTimesEffect() != null && ToolContextData.getTokenTimesEffect().getToken() != null ? ToolContextData.getTokenTimesEffect().getToken() : "token";
+    this.cookiesExpireTimes = ToolContextData.getTokenTimesEffect() != null && ToolContextData.getTokenTimesEffect().getCookiesExpireTimes() != null ? ToolContextData.getTokenTimesEffect().getCookiesExpireTimes() : 0;
   }
 
   public Responses(Parameter parameter) {
@@ -40,6 +46,8 @@ public class Responses<T> implements java.io.Serializable {
     this.page = parameter.getPage();
     this.data = Collections.emptyList();
     this.isSuccess = true;
+    this.token = ToolContextData.getTokenTimesEffect() != null && ToolContextData.getTokenTimesEffect().getToken() != null ? ToolContextData.getTokenTimesEffect().getToken() : "token";
+    this.cookiesExpireTimes = ToolContextData.getTokenTimesEffect() != null && ToolContextData.getTokenTimesEffect().getCookiesExpireTimes() != null ? ToolContextData.getTokenTimesEffect().getCookiesExpireTimes() : 0;
   }
 
   public int getStatusCode() {
@@ -114,6 +122,22 @@ public class Responses<T> implements java.io.Serializable {
 
   public void setMsg(String msg) {
     this.msg = msg;
+  }
+
+  public java.lang.String getToken() {
+    return token;
+  }
+
+  public void setToken(java.lang.String token) {
+    this.token = token;
+  }
+
+  public java.lang.Long getCookiesExpireTimes() {
+    return cookiesExpireTimes;
+  }
+
+  public void setCookiesExpireTimes(java.lang.Long cookiesExpireTimes) {
+    this.cookiesExpireTimes = cookiesExpireTimes;
   }
 
   public final void setException(Exception e) {

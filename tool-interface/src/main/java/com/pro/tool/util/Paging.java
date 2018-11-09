@@ -14,6 +14,8 @@ public class Paging<T> implements java.io.Serializable {
 
   private java.util.Collection<T> data;
 
+  private Long startOffset;
+
   private Long endOffset;
 
   public Paging() {
@@ -25,6 +27,7 @@ public class Paging<T> implements java.io.Serializable {
     this.offset = (parameter.getPage() - 1) * parameter.getRows();
     this.rows = parameter.getRows();
     this.page = parameter.getPage();
+    this.startOffset = (parameter.getPage() - 1) * parameter.getRows() + 1;
     this.endOffset = parameter.getPage() * parameter.getRows();
   }
 
@@ -66,6 +69,14 @@ public class Paging<T> implements java.io.Serializable {
 
   public void setData(java.util.Collection<T> data) {
     this.data = data;
+  }
+
+  public Long getStartOffset() {
+    return startOffset;
+  }
+
+  public void setStartOffset(Long startOffset) {
+    this.startOffset = startOffset;
   }
 
   public Long getEndOffset() {
